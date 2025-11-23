@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Liberty — Portfolio</title>
+<style>
+:root{
+  --bg:#0b0b0b;
+  --card:#111;
+  --accent:#e64a4a;
+  --muted:#9b9b9b;
+  --glass: rgba(255,255,255,0.03);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background: var(--bg);
+  color:#fff;
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:40px 20px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.7);
+  opacity:0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+  min-height:90vh;
+}
+.card.show{
+  opacity:1;
+  transform: translateY(0);
+}
+
+.hero{
+  display:flex;
+  flex-wrap: wrap;
+  gap:30px;
+  align-items:center;
+}
+.avatar{
+  width:200px;
+  height:200px;
+  border-radius:20px;
+  overflow:hidden;
+  flex-shrink:0;
+  border:3px solid rgba(255,255,255,0.05);
+}
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.intro{
+  flex:1;
+  min-width:280px;
+}
+h1{margin:0;font-size:36px;}
+.name{color:var(--accent); font-weight:700;}
+.subtitle{color:var(--muted); font-size:16px;margin-top:4px;}
+.stats{display:flex;gap:30px;margin-top:12px;flex-wrap:wrap;}
+.stat{font-weight:700;font-size:20px;white-space:nowrap;}
+.stat small{color:var(--muted); font-weight:400; font-size:14px; margin-left:4px;}
+
+.cta{
+  display:inline-block;
+  margin-top:20px;
+  padding:12px 20px;
+  border-radius:10px;
+  background:var(--accent);
+  color:#fff;
+  text-decoration:none;
+  cursor:pointer;
+  transition: background 0.3s;
+}
+.cta:hover{background:#ff5c5c;}
+
+.services{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.services h2{margin:0; font-size:22px;}
+.service-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+.service{
+  flex:1 1 250px;
+  padding:20px;
+  border-radius:15px;
+  background:var(--glass);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition: transform 0.3s;
+}
+.service:hover{transform: translateY(-3px);}
+.service .desc{color:var(--muted); font-size:14px;}
+.price{font-weight:700;color:#fff; margin-left:10px; white-space:nowrap;}
+
+/* Модальное окно */
+#contactModal{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.8);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.4s ease;
+}
+#contactModal.show{
+  opacity:1;
+  pointer-events:auto;
+}
+#contactModal .modal-content{
+  background: var(--card);
+  padding:30px;
+  border-radius:20px;
+  max-width:400px;
+  width:90%;
+  text-align:center;
+  position:relative;
+  transform: translateY(-50px);
+  opacity:0;
+  transition: all 0.4s ease;
+}
+#contactModal.show .modal-content{
+  transform: translateY(0);
+  opacity:1;
+}
+#contactModal h3{margin:0 0 12px;}
+#contactModal p{color:var(--muted); margin-bottom:16px;}
+#contactModal .contact{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:15px;
+  align-items:center;
+}
+#contactModal .contact a{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-weight:700;
+  text-decoration:none;
+}
+#contactModal .contact img{
+  width:20px;
+  height:20px;
+}
+#closeModal{
+  position:absolute;
+  top:10px; right:10px;
+  background:var(--accent);
+  border:none;
+  padding:5px 10px;
+  color:#fff;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* Мобильная адаптация */
+@media(max-width:600px){
+  #contactModal .modal-content{
+    max-width:90%;
+    padding:20px;
+  }
+  #contactModal .contact{
+    flex-direction:row;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+  }
+  #contactModal .contact a{
+    font-size:14px;
+  }
+  .hero{flex-direction:column;align-items:center;text-align:center;}
+  .stats{justify-content:center;}
+  .service-list{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" id="mainCard">
+    <div class="hero">
+      <div class="avatar">
+        <img src="https://i.imgur.com/linDQQy.jpeg" alt="Liberty avatar">
+      </div>
+      <div class="intro">
+        <h1>Hi, I'm <span class="name">Liberty</span></h1>
+        <div class="subtitle">Designer,scripter and certified cyber security networker,analyst</div>
+        <div class="stats">
+          <div class="stat">2+ <small>years of experience</small></div>
+          <div class="stat">50+ <small>projects</small></div>
+        </div>
+        <a class="cta" id="contactBtn">Contact</a>
+      </div>
+    </div>
+
+    <div class="services">
+      <h2>My Services</h2>
+      <div class="service-list">
+        <div class="service">
+          <div>
+            <div style="font-weight:700">Logo / Banner creation</div>
+            <div class="desc">Logo and banner design</div>
+          </div>
+          <div class="price">$10</div>
+        </div>
+        <div class="service">
+          <div>
+            <div style="font-weight:700">Livery design</div>
+            <div class="desc">3 livery variants</div>
+          </div>
+          <div class="price">$15 / 3 liveries</div>
+        </div>
+        <div class="service">
+          <div>
+            <div style="font-weight:700">Server Network Manager</div>
+            <div class="desc">Server network configuration+setup</div>
+          </div>
+          <div class="price">$150 / monthly</div>
+        </div>
+        <div class="service">
+          <div>
+            <div style="font-weight:700">Python scripting / Bot development</div>
+            <div class="desc">Custom Python scripts</div>
+          </div>
+          <div class="price">Depends on difficulty</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно -->
+<div id="contactModal">
+  <div class="modal-content">
+    <h3>Contact</h3>
+    <p>For project inquiries or collaboration, contact me via Telegram / Discord / Email:</p>
+    <div class="contact">
+      <a href="mailto:interpoldis@gmail.com">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email">
+        interpoldis@gmail.com
+      </a>
+      <a href="https://t.me/TheTrueLiberty" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+        @TheTrueLiberty
+      </a>
+      <a href="#" target="_blank">
+        <img src="https://i.imgur.com/uGS0VnB.png" alt="TheTrueLiberty">
+        TheTrueLiberty
+      </a>
+    </div>
+    <button id="closeModal">X</button>
+  </div>
+</div>
+
+<script>
+window.addEventListener('load', () => {
+  document.getElementById('mainCard').classList.add('show');
+});
+
+const modal = document.getElementById('contactModal');
+const btn = document.getElementById('contactBtn');
+const closeBtn = document.getElementById('closeModal');
+
+btn.addEventListener('click', () => {
+  modal.classList.add('show');
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.classList.remove('show');
+});
+
+window.addEventListener('click', (e) => {
+  if(e.target === modal){
+    modal.classList.remove('show');
+  }
+});
+</script>
+
+</body>
+</html>
